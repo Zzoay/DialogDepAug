@@ -197,10 +197,6 @@ class DialogUttrInterDataset(Dataset):
         max_len = self.cfg.dialog_max_length
 
         sample_lst, inters_lst, speakers_lst = load_annoted_inter(self.data_file)
-        sample_lst_aug, inters_lst_aug, speakers_lst_aug = load_annoted_inter('zero/zero-uttr.json')
-        sample_lst.extend(sample_lst_aug)
-        inters_lst.extend(inters_lst_aug)
-        speakers_lst.extend(speakers_lst_aug)
 
         sample_lst_aug, inters_lst_aug, speakers_lst_aug = [], [], []
         data_files = self.cfg.aug_files
@@ -209,16 +205,6 @@ class DialogUttrInterDataset(Dataset):
             sample_lst_aug.extend(sa_lst)
             inters_lst_aug.extend(in_lst)
             speakers_lst_aug.extend(sp_lst)
-        if not self.test: 
-            sample_lst.extend(sample_lst.copy())  # 3:1
-            inters_lst.extend(inters_lst.copy())
-            speakers_lst.extend(speakers_lst.copy())
-            sample_lst.extend(sample_lst.copy())  
-            inters_lst.extend(inters_lst.copy())
-            speakers_lst.extend(speakers_lst.copy()) # ------
-            sample_lst.extend(sample_lst_aug)
-            inters_lst.extend(inters_lst_aug)
-            speakers_lst.extend(speakers_lst_aug)
 
         for i, inters in enumerate(inters_lst):
             num_turn = len(speakers_lst[i])
@@ -415,26 +401,6 @@ def load_diag4eval(data_file, data_ids=None):
             else:
                 rel_dct[tail_uttr_idx][tail_word_idx] = [head, rel]
         
-        # edu-wise
-        # edu_lst, role_lst = [], []
-        # for item in d['dialog']:
-        #     turn = item['turn']
-        #     utterance = item['utterance']
-        #     role = '[ans]' if item['speaker'] == 'A' else '[qst]'
-        #     edu = []
-        #     word_lst = utterance.split(' ')
-        #     word_lst.append(',')
-        #     for word_idx, word in enumerate(word_lst[:-1]):
-        #         # edu.append([turn, word_idx+1, word])
-        #         edu.append(word)
-        #         if word in punct_lst and word_lst[word_idx+1] not in punct_lst and len(edu) >= 3:
-        #             edu_lst.append(edu)
-        #             role_lst.append(role)
-        #             edu = []
-        #     if len(edu) != 0:
-        #         edu_lst.append(edu)
-        #         role_lst.append(role)
-
         uttr_lst, role_lst = [], []
         for item in d['dialog']:
             turn = item['turn']
@@ -533,42 +499,6 @@ class DialogEvalDataset(Dataset):
     
     def __len__(self):
         return len(self.rels)
-
-
-# def load_signal(data_file: str):
-#     signals = []
-#     left, right = 0, 0
-#     with open(data_file, 'r', encoding='utf-8') as f:
-#         tmp = []
-#         for i, line in enumerate(f.readlines()):
-#             toks = line.split()
-#             if len(toks) == 0:
-#                 left = right
-#                 right += len(tmp)
-#                 for s in tmp:
-#                     signals.append([s[0], s[1], s[2], left, right])
-#                 signals.append(['[seg]', -1, -1, -1, -1])
-#                 tmp = []
-#             else:
-#             # elif len(toks) == 10:
-#                 tmp.append([toks[1], int(toks[2]), int(toks[3])])
-#     for s in tmp:
-#         signals.append([s[0], s[1], s[2], left, right])
-    
-#     edu_lst, edu = [], []
-#     for i, (word, signal1, signal2, left, right) in enumerate(signals[:-1]):
-#         if word != '[seg]':
-#             edu.append([word, signal1, signal2, left, right])
-#         if word in punct_lst and signals[i+1][0] not in punct_lst and len(edu) >= 3:
-#             edu_lst.append(edu)
-#             edu = []
-#         elif word == '[seg]' and len(edu) >= 1:
-#             edu_lst.append(edu)
-#             edu = []
-#     if len(edu) != 0:
-#         edu_lst.append(edu)
-
-#     return edu_lst
 
 def load_signal(data_file: str, return_two=False):
     sentence:List[Dependency] = []
