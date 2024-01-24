@@ -1,0 +1,29 @@
+train_file: 'zero/zero-uttr.json'
+test_file: 'data/dialog/test.json'
+syn_train_path: 'data/syntax'
+syn_domains: ['BC', 'FIN', 'LEG', 'PB', 'PC', 'ZX']
+# syn_domains: ['ZX']
+aug_files: []
+plm: 'hfl/chinese-electra-180g-base-discriminator'
+num_epochs: 10
+plm_lr: 2.0e-5
+head_lr: 1.0e-4
+weight_decay: 0.1
+dropout: 0.1
+alpha: 0.3
+grad_clip: 2
+scheduler: 'linear'
+warmup_ratio: 0.1
+num_early_stop: 3
+syn_batch_size: 16
+syn_max_length: 40
+dialog_batch_size: 1
+# dialog_batch_size: 1
+dialog_max_length: 80
+num_labels: 21  # 21 of syn + 16 of rst
+hidden_size: 200
+print_every_ratio: 0.05
+cuda: True
+fp16: True
+eval_strategy: 'epoch'
+mode: 'training'
