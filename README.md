@@ -4,6 +4,12 @@ A related paper is under review.
 
 The code is currently undergoing organization...
 
+## Requirements
+- wandb
+- numpy
+- torch
+- transformers
+
 ## Train
 Run the code below to start training.
 ```bash
