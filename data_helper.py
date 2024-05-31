@@ -200,12 +200,19 @@ class DialogUttrInterDataset(Dataset):
 
         sample_lst_aug, inters_lst_aug, speakers_lst_aug = [], [], []
         data_files = self.cfg.aug_files
-        for file_path in data_files:
-            sa_lst, in_lst, sp_lst = load_annoted_inter(file_path, sparse=True)
-            sample_lst_aug.extend(sa_lst)
-            inters_lst_aug.extend(in_lst)
-            speakers_lst_aug.extend(sp_lst)
+        if not self.test:
+            for file_path in data_files:
+                sa_lst, in_lst, sp_lst = load_annoted_inter(file_path, sparse=True)
+                sample_lst_aug.extend(sa_lst)
+                inters_lst_aug.extend(in_lst)
+                speakers_lst_aug.extend(sp_lst)
 
+        # if not test, aug by extend data
+        if not self.test:
+            sample_lst.extend(sample_lst_aug)
+            inters_lst.extend(inters_lst_aug)
+            speakers_lst.extend(speakers_lst_aug)
+        
         for i, inters in enumerate(inters_lst):
             num_turn = len(speakers_lst[i])
             h, r, t = [x[0] for x in inters], [x[1] for x in inters], [x[2] for x in inters]
