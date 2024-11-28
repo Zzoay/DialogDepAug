@@ -96,32 +96,6 @@ def run():
     
 
 if __name__ == '__main__':
-    transformers.logging.set_verbosity_error() # only report errors.
-
-    import time
-    # time.sleep(5500)
-    # import GPUtil
-    # import random
-    # while True:
-    #     time.sleep(random.uniform(420, 600))
-
-    #     # 获取当前GPU的负载信息
-    #     GPUs = GPUtil.getGPUs()
-    #     if len(GPUs) > 0:
-    #         gpu = GPUs[0]  # 假设你想监控第一个GPU
-    #         gpu_load = gpu.load * 100  # 获取GPU占用率
-
-    #         # 打印当前GPU占用率（可选）
-    #         print(f"Current GPU load: {gpu_load}%")
-
-    #         # 如果GPU占用率低于10%，则跳出循环
-    #         if gpu_load < 10:
-    #             print("GPU load is below 10%, exiting the loop.")
-    #             break
-    #     else:
-    #         print("No GPU found.")
-    #         break
-    
     seed_everything(42)
 
     debug = False
