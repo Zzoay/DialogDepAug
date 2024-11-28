@@ -68,13 +68,6 @@ def run():
 
     torch.save(best_state_dict, 'ckpt/base_par.pt')
 
-    # diagdataset_test = DialogEvalDataset(CFG, CFG.test_file, tokenizer)
-    # test_iter = DataLoader(diagdataset_test, batch_size=1, shuffle=False)
-    # (inner_uas, inner_las), (inter_uas, inter_las) = eval_eduwise(model, CFG, test_iter)
-    # print(inner_uas, inner_las), (inter_uas, inter_las)
-    # wandb.log({"edu-wise": {"test_inner_uas":inner_uas, "test_inner_las":inner_las,
-    #                         "test_inter_uas":inter_uas, "test_inter_las":inter_las}})
-
     diagdataset_test = DialogUttrDataset(CFG, CFG.test_file, tokenizer, test=True)
     # # diagdataset_test = DialogUttrInterDataset(CFG, CFG.test_file, tokenizer)
     test_iter = DataLoader(diagdataset_test, batch_size=64, shuffle=False)
